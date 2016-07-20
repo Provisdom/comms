@@ -1,6 +1,6 @@
-# postal
+# comms
 
-FIXME: description
+[![Clojars Project](https://img.shields.io/clojars/v/comms.svg)](https://clojars.org/comms)
 
 ## Installation
 
