@@ -9,14 +9,16 @@
                           [funcool/beicon "2.1.0"]
                           [funcool/catacumba "1.0.0-SNAPSHOT"]])
 
-(require '[adzerk.bootlaves :refer [push-release push-snapshot]])
+(require '[adzerk.bootlaces :refer [bootlaces! build-jar push-release push-snapshot]])
+
+(bootlaces! version)
 
 (task-options!
   pom {:project     project
        :version     version
-       :description "FIXME: write description"
-       :url         "http://example/FIXME"
-       :scm         {:url "https://github.com/yourname/postal"}
+       :description "Websocket handlers for Catacumba and Cljs"
+       :url         "https://github.com/Provisdom/comms"
+       :scm         {:url "https://github.com/Provisdom/comms"}
        :license     {"Eclipse Public License"
                      "http://www.eclipse.org/legal/epl-v10.html"}})
 
