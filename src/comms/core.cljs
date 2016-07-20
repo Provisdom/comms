@@ -1,12 +1,8 @@
 (ns comms.core
   (:require [cognitect.transit :as t]
-            [promesa.core :as p]
             [beicon.core :as s]
             [goog.crypt.base64 :as b64]
-            [goog.events :as events]
-            [httpurr.client :as http]
-            [httpurr.status :as http-status]
-            [httpurr.client.xhr :as xhr])
+            [goog.events :as events])
   (:import [goog.net WebSocket]
            [goog.net.WebSocket EventType]
            [goog.Uri QueryData]
@@ -64,7 +60,10 @@
    (socket client nil nil))
   ([client data]
    (socket client data nil))
-  ([client data {:keys [params _type] :or {params {} _type :socket}}]
+  ([client data {:keys [params _type on-ws-open]
+                 :or   {params     {}
+                        _type      :socket
+                        on-ws-open identity}}]
    (let [frame (encode {:data data :type _type})
          req (prepare-request client frame :get params)
          uri (Uri. (:url req))]
@@ -81,7 +80,7 @@
                (on-ws-error [event]
                  (s/error! busin event)
                  (.close ws))
-               (on-ws-closed [event]
+               (on-ws-closed [_]
                  (s/end! busout)
                  (s/end! busin))
                (on-timer-tick [_]
@@ -100,6 +99,7 @@
          (events/listen ws EventType.MESSAGE on-ws-message)
          (events/listen ws EventType.ERROR on-ws-error)
          (events/listen ws EventType.CLOSED on-ws-closed)
+         (events/listen ws EventType.OPENED (partial on-ws-open streamin busout))
          (events/listen timer Timer.TICK on-timer-tick)
 
          (.start timer)
