@@ -65,9 +65,9 @@
 
               (-> context
                   (assoc :out out' :in in'
-                         :query-params (-> (get-in context [:query-params :d])
-                                           (or (byte-array 0))
-                                           (b64/decode)
-                                           (sz/decode :transit+json)))
+                         :query-params (merge (:query-params context) {:d (-> (get-in context [:query-params :d])
+                                                                              (or (byte-array 0))
+                                                                              (b64/decode)
+                                                                              (sz/decode :transit+json))}))
                   (handler))))]
     (implws/websocket context inner-handler)))
