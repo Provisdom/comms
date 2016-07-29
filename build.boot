@@ -1,12 +1,12 @@
 (def project 'comms)
-(def version "0.1.0-SNAPSHOT")
+(def version "0.1.1-SNAPSHOT")
 
 (set-env! :resource-paths #{"src"}
           :dependencies '[[adzerk/bootlaces "0.1.13" :scope "test"]
                           [org.clojure/clojure "1.8.0" :scope "provided"]
                           [org.clojure/clojurescript "1.9.93" :scope "provided"]
                           [com.cognitect/transit-cljs "0.8.239"]
-                          [funcool/beicon "2.1.0"]
+                          [funcool/beicon "2.2.0"]
                           [funcool/catacumba "1.0.0-SNAPSHOT"]])
 
 (require '[adzerk.bootlaces :refer [bootlaces! build-jar push-release push-snapshot]])
