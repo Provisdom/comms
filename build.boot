@@ -1,5 +1,5 @@
 (def project 'comms)
-(def version "0.1.1-SNAPSHOT")
+(def version "0.1.1")
 
 (set-env! :resource-paths #{"src"}
           :dependencies '[[adzerk/bootlaces "0.1.13" :scope "test"]
