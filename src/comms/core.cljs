@@ -67,6 +67,9 @@
    (let [frame (encode {:data data :type _type})
          req (prepare-request client frame :get params)
          uri (Uri. (:url req))]
+     ;; NOTE: There is NO way to set headers for the GET websocket request
+     ;; see https://html.spec.whatwg.org/multipage/comms.html#network
+     ;; http://stackoverflow.com/questions/4361173/http-headers-in-websockets-client-api
      (.setQuery uri (:query-string req))
      (.setScheme uri (if (= (.getScheme uri) "http") "ws" "wss"))
      (let [ws (WebSocket. false)
