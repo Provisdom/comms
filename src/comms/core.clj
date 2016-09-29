@@ -34,6 +34,13 @@
   ([type data]
    {:type type :data data}))
 
+(defn decode-query-params
+  [context]
+  (-> (get-in context [:query-params :d])
+      (or (byte-array 0))
+      (b64/decode)
+      (sz/decode :transit+json)))
+
 (defn socket
   "Starts a websocket connection. Returns a tuple of
   [streamin streamout]"
@@ -65,9 +72,7 @@
 
               (-> context
                   (assoc :out out' :in in'
-                         :query-params (merge (:query-params context) {:d (-> (get-in context [:query-params :d])
-                                                                              (or (byte-array 0))
-                                                                              (b64/decode)
-                                                                              (sz/decode :transit+json))}))
+                         :query-params (merge (:query-params context)
+                                              {:d (decode-query-params context)}))
                   (handler))))]
     (implws/websocket context inner-handler)))
